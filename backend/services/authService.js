@@ -49,13 +49,15 @@ const loginUser = async (email, password) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return { statusCode: 401, status: false, message: 'invalid credentials' };
+            return { statusCode: 401, status: false, message: 'Invalid credentials' };
         }
 
         // Generate JWT token
         const token = generateToken(user);
 
-        return { statusCode: 200, status: true, message: 'Successfully logged in', token };
+        // Return the user details along with the token
+        return { statusCode: 200, status: true, message: 'Successfully logged in', token: token, user: user };
+
 
     } catch (error) {
         return { statusCode: 500, status: false, message: 'invalid credentials', error };

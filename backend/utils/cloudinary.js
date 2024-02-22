@@ -2,27 +2,22 @@ const cloudinary = require("cloudinary");
 const fs = require("fs");
 
 
-// cloudinary.config({
-//     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//     api_key: process.env.CLOUDINARY_API_KEY,
-//     api_secret: process.env.CLOUDINARY_API_SECRET,
-//     secure: true,
-// });
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true,
+    folder: "maxlence-backend-data",
+    resource_type: "auto",
+    secure: true,
+});
 
 const uploadOnCloudinary = async (localFilePath) => {
     try {
         if (!localFilePath) return null
 
         //upload the file on cloudinary!
-        const response = await cloudinary.v2.uploader.upload(localFilePath, {
-
-            cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-            api_key: process.env.CLOUDINARY_API_KEY,
-            api_secret: process.env.CLOUDINARY_API_SECRET,
-            folder: "maxlence-backend-data",
-            resource_type: "auto",
-            secure: true,
-        });
+        const response = await cloudinary.v2.uploader.upload(localFilePath, { timeout: 120000 });
         // file has been uploaded successfully
         // console.log("file is uploaded on cloudinary ", response); 
 

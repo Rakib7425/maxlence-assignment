@@ -31,7 +31,6 @@ const NavBar = () => {
 				<div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
 					<NavLink
 						to={"/"}
-						href='https://flowbite.com/'
 						className={({ isActive, isPending }) =>
 							isPending
 								? "pending"
@@ -41,7 +40,7 @@ const NavBar = () => {
 						}
 					>
 						{/* <img src='/maxlence-logo.png' className='h-8' alt='Maxlence Logo' /> */}
-						<span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>
+						<span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white hover:opacity-60 duration-300'>
 							Maxlence Logo
 						</span>
 					</NavLink>
@@ -75,7 +74,7 @@ const NavBar = () => {
 									Bonnie Green
 								</span>
 								<span className='block text-sm  text-gray-500 truncate dark:text-gray-400'>
-									name@flowbite.com
+									name@maxlence.com
 								</span>
 							</div>
 							<ul className='py-2' aria-labelledby='user-menu-button'>
@@ -131,8 +130,8 @@ const NavBar = () => {
 										isPending
 											? "pending"
 											: isActive
-											? "font-bold mb-1 md:text-xl bg-blue-700 py-2 px-3 underline-offset-1 text-black dark:text-yellow-200 block rounded"
-											: "block py-2 px-3 text-white rounded  md:text-blue-700 md:p-0 md:dark:text-blue-500 md:text-xl"
+											? "font-bold md:text-xl bg-blue-700 md:bg-transparent py-2 px-3  md:p-0 underline-offset-1 text-black dark:text-yellow-200 block md:inline rounded duration-300 ease-out"
+											: "block py-2 px-3 text-white rounded  md:text-blue-700 md:p-0 md:dark:text-blue-500 md:text-xl duration-300 ease-out"
 									}
 									aria-current='page'
 								>
@@ -147,8 +146,8 @@ const NavBar = () => {
 										isPending
 											? "pending"
 											: isActive
-											? "font-bold mb-1 md:text-xl bg-blue-700 py-2 px-3 underline-offset-1 text-black dark:text-yellow-200 block rounded"
-											: "block py-2 px-3 text-white rounded  md:text-blue-700 md:p-0 md:dark:text-blue-500 md:text-xl"
+											? "font-bold md:text-xl bg-blue-700 md:bg-transparent py-2 px-3 underline-offset-1 text-black dark:text-yellow-200 block md:inline rounded duration-300 ease-out"
+											: "block md:inline py-2 px-3 text-white rounded  md:text-blue-700 md:p-0 md:dark:text-blue-500 md:text-xl duration-300 ease-out"
 									}
 								>
 									Login
