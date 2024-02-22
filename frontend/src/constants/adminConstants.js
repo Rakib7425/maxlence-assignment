@@ -1,0 +1,3 @@
+export const reuseInputClassnames = `bg-gray-100 text-gray-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 focus:border-blue-500 dark:focus:border-blue-600 px-5 py-3 border border-gray-300 dark:border-blue-400 border-opacity-50 text-blue-dark bg-ternary-light rounded-md shadow-sm text-md`;
+
+export const reuseInputClassnamesModal = `w-full focus:border-blue-500 dark:focus:border-blue-600 px-5 py-3 border border-gray-300 dark:border-blue-400 border-opacity-50 text-blue-dark bg-ternary-light rounded-md shadow-sm text-md`;

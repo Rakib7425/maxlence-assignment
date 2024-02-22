@@ -1,0 +1,23 @@
+{
+    "development": {
+        "username": "username",
+        "password": "password",
+        "database": "maxlence",
+        "host": "localhost",
+        "dialect": "mysql"
+    },
+    "test": {
+        "username": "admin",
+        "password": "admin",
+        "database": "maxlence",
+        "host": "localhost",
+        "dialect": "mysql"
+    },
+    "production": {
+        "username": "username",
+        "password": "password",
+        "database": "maxlence",
+        "host": "localhost",
+        "dialect": "mysql"
+    }
+}
