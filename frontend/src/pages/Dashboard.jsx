@@ -15,8 +15,7 @@ const Dashboard = () => {
 	const [needReload, setNeedReload] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
 	const [currentPage, setCurrentPage] = useState(1);
-
-	const ITEMS_PER_PAGE = 5;
+	const [itemPerPage, setItemPerPage] = useState(5);
 
 	useEffect(() => {
 		getAllUsers();
@@ -36,8 +35,10 @@ const Dashboard = () => {
 	};
 
 	const filterUsers = () => {
-		const filtered = users.filter((user) =>
-			user.email.toLowerCase().includes(searchTerm.toLowerCase())
+		const filtered = users.filter(
+			(user) =>
+				user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+				user.fullName.toLowerCase().includes(searchTerm.toLowerCase())
 		);
 		setFilteredUsers(filtered);
 	};
@@ -54,12 +55,8 @@ const Dashboard = () => {
 		setCurrentPage((prevPage) => prevPage - 1);
 	};
 
-	// const handlePageChange = (pageNumber) => {
-	// 	setCurrentPage(pageNumber);
-	// };
-
-	const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
-	const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+	const indexOfLastItem = currentPage * itemPerPage;
+	const indexOfFirstItem = indexOfLastItem - itemPerPage;
 	const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
 
 	return (
@@ -77,7 +74,7 @@ const Dashboard = () => {
 				<div className='py-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-900 dark:border-gray-700 duration-500'>
 					<div className='w-full mb-1'>
 						<div className='mb-4'>
-							<h1 className='text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white'>
+							<h1 className='text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white text-start'>
 								All users
 							</h1>
 						</div>
@@ -93,7 +90,7 @@ const Dashboard = () => {
 											name='email'
 											id='users-search'
 											className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-											placeholder='Search for users by email'
+											placeholder='Search for users by email or Name'
 											value={searchTerm}
 											onChange={handleSearchChange}
 										/>
@@ -189,6 +186,11 @@ const Dashboard = () => {
 										))}
 									</tbody>
 								</table>
+								{currentItems.length < 1 && (
+									<h1 className='w-full bg-transparent flex justify-center items-center text-lg dark:text-red-600 py-4 duration-500 ease-out'>
+										No user found with email: {searchTerm}
+									</h1>
+								)}
 							</div>
 						</div>
 					</div>
@@ -222,6 +224,27 @@ const Dashboard = () => {
 						</button>
 					</div>
 					<div className='flex items-center space-x-3 md:mr-[4.3%]'>
+						<div className='col-span-6 sm:col-span-3'>
+							<select
+								defaultValue={10}
+								id='role'
+								className='inline-flex gap-1 items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed '
+								onChange={(e) => setItemPerPage(e.target.value)}
+							>
+								<option value='5' className='m-3'>
+									5
+								</option>
+								<option value='15' className='m-3'>
+									15
+								</option>
+								<option value='30' className='m-3'>
+									30
+								</option>
+								<option value='50' className='m-3'>
+									50
+								</option>
+							</select>
+						</div>
 						<button
 							className='inline-flex gap-1 items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed'
 							onClick={handlePrevPage}

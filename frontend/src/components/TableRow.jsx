@@ -3,9 +3,10 @@ import { MdDeleteOutline } from "react-icons/md";
 import { LuFileEdit } from "react-icons/lu";
 import { useState } from "react";
 import DeleteUserModel from "./DeleteUserModel";
+import EditUserModel from "./EditUserModel";
 
 const TableRow = ({ user, setNeedReload }) => {
-	// const [isEditUserModelOpen, setIsEditUserModelOpen] = useState(false);
+	const [isEditUserModelOpen, setIsEditUserModelOpen] = useState(false);
 
 	const [isDeleteUserModelOpen, setIsDeleteUserModelOpen] = useState(false);
 
@@ -19,6 +20,20 @@ const TableRow = ({ user, setNeedReload }) => {
 							userId={user.id}
 							setNeedReload={setNeedReload}
 							setIsDeleteUserModelOpen={setIsDeleteUserModelOpen}
+						/>
+					</td>
+				</tr>
+			)}
+
+			{isEditUserModelOpen && (
+				// tr and td for Warning:: Warning: validateDOMNesting(...): <div> cannot appear as a child of <tbody>.
+				<tr>
+					<td>
+						<EditUserModel
+							user={user}
+							setNeedReload={setNeedReload}
+							isEditUserModelOpen={isEditUserModelOpen}
+							setIsEditUserModelOpen={setIsEditUserModelOpen}
 						/>
 					</td>
 				</tr>
@@ -60,8 +75,9 @@ const TableRow = ({ user, setNeedReload }) => {
 						type='button'
 						data-modal-toggle='edit-user-modal'
 						className='inline-flex gap-3 items-center px-4 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+						onClick={() => setIsEditUserModelOpen((prev) => !prev)}
 					>
-						<LuFileEdit color='black' size={17} />
+						<LuFileEdit size={17} />
 						<span>Edit</span>
 					</button>
 					<button

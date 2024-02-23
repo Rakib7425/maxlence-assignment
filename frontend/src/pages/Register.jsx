@@ -77,10 +77,14 @@ const Register = () => {
 			setUserData(data);
 			// console.log(data);
 			setIsLoading(false);
-			return toast.success(`${data?.message || "Successfully Added!"}`);
+			return toast.success(`${data?.message || "Successfully Registered!"}`);
 		} catch (error) {
 			console.log(error);
 			setIsLoading(false);
+			toast.error(
+				error.response.data.error + " Slow Internet !" ||
+					"Error occurred during Registering."
+			);
 		}
 	};
 
@@ -168,19 +172,19 @@ const Register = () => {
 									</span>
 								)}
 							</div>
-							<div className='preview rounded-full mt-5 h-14 w-14'>
+							<div className='preview rounded-full h-14 w-14'>
 								{previewSource && (
 									<img
 										src={previewSource}
 										alt='Preview'
-										className='rounded-full'
+										className='mb-4 rounded-lg absolute md:-mt-2 md:w-28 md:h-28 sm:mb-0 xl:mb-4 2xl:mb-0 w-14 h-14 mt-3'
 									/>
 								)}
 								{!previewSource && (
 									<img
 										src='https://as2.ftcdn.net/v2/jpg/02/44/43/69/1000_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg'
 										alt='Hello avatar'
-										className='rounded-full'
+										className='rounded-full mt-5 md:mt-4'
 									/>
 								)}
 							</div>

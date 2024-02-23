@@ -53,7 +53,7 @@ const NavBar = () => {
 					>
 						{/* <img src='/maxlence-logo.png' className='h-8' alt='Maxlence Logo' /> */}
 						<span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white hover:opacity-60 duration-300'>
-							Maxlence Logo
+							Maxlence
 						</span>
 					</NavLink>
 					<div className='flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-2'>
@@ -139,40 +139,42 @@ const NavBar = () => {
 					<div
 						className={`${
 							isMobileOpenMenu ? "" : "hidden"
-						} items-center  justify-between  w-full md:flex md:w-auto md:order-1`}
+						} w-full md:flex md:w-auto md:order-1 self-end justify-end`}
 						id='navbar-user'
 					>
-						<ul className='flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
-							<li>
-								<NavLink
-									to={"/"}
-									className={({ isActive, isPending }) =>
-										isPending
-											? "pending"
-											: isActive
-											? "font-bold md:text-xl bg-blue-700 md:bg-transparent py-2 px-3  md:p-0 underline-offset-1 text-black dark:text-yellow-200 block md:inline rounded duration-300 ease-out"
-											: "block py-2 px-3 text-white rounded  md:text-blue-700 md:p-0 md:dark:text-blue-500 md:text-xl duration-300 ease-out"
-									}
-									aria-current='page'
-								>
-									Dashboard
-								</NavLink>
-							</li>
-
-							<li>
-								<NavLink
-									to={"/login"}
-									className={({ isActive, isPending }) =>
-										isPending
-											? "pending"
-											: isActive
-											? "font-bold md:text-xl bg-blue-700 md:bg-transparent py-2 px-3 underline-offset-1 text-black dark:text-yellow-200 block md:inline rounded duration-300 ease-out"
-											: "block md:inline py-2 px-3 text-white rounded  md:text-blue-700 md:p-0 md:dark:text-blue-500 md:text-xl duration-300 ease-out"
-									}
-								>
-									Login
-								</NavLink>
-							</li>
+						<ul className='flex flex-col  font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
+							{user ? (
+								<li className='flex items-end justify-end'>
+									<NavLink
+										to={"/"}
+										className={({ isActive, isPending }) =>
+											isPending
+												? "pending"
+												: isActive
+												? "font-bold md:text-xl bg-blue-700 md:bg-transparent py-2 px-3  md:p-0 underline-offset-1 text-black dark:text-yellow-200 block md:inline rounded duration-300 ease-out"
+												: "block py-2 px-3 text-white rounded  md:text-blue-700 md:p-0 md:dark:text-blue-500 md:text-xl duration-300 ease-out"
+										}
+										aria-current='page'
+									>
+										Dashboard
+									</NavLink>
+								</li>
+							) : (
+								<li>
+									<NavLink
+										to={"/login"}
+										className={({ isActive, isPending }) =>
+											isPending
+												? "pending"
+												: isActive
+												? "font-bold md:text-xl bg-blue-700 md:bg-transparent py-2 px-3 underline-offset-1 text-black dark:text-yellow-200 block md:inline rounded duration-300 ease-out"
+												: "block md:inline py-2 px-3 text-white rounded  md:text-blue-700 md:p-0 md:dark:text-blue-500 md:text-xl duration-300 ease-out"
+										}
+									>
+										Login
+									</NavLink>
+								</li>
+							)}
 						</ul>
 					</div>
 				</div>

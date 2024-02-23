@@ -11,7 +11,7 @@ import { setUser } from "../store/slices/userSlice";
 import Spinner from "./Spinner";
 import { toast } from "react-toastify";
 
-const GeneralInformation = () => {
+const ProfileGeneralInformation = () => {
 	const {
 		register,
 		handleSubmit,
@@ -67,7 +67,7 @@ const GeneralInformation = () => {
 							htmlFor='fullName'
 							className='block mb-2 text-sm font-medium text-gray-900 dark:text-white text-start'
 						>
-							Full Name
+							Full Name <span className='text-red-600 ml-1 font-medium'>*</span>
 						</label>
 						<input
 							type='text'
@@ -90,7 +90,7 @@ const GeneralInformation = () => {
 							htmlFor='email'
 							className='block mb-2 text-sm font-medium text-gray-900 dark:text-white text-start'
 						>
-							Email
+							Email <span className='text-red-600 ml-1 font-medium'>*</span>
 						</label>
 						<input
 							defaultValue={user?.email}
@@ -112,7 +112,7 @@ const GeneralInformation = () => {
 							htmlFor='role'
 							className='block mb-2 text-sm font-medium text-gray-900 dark:text-white text-start'
 						>
-							User Role
+							User Role <span className='text-red-600 ml-1 font-medium'>*</span>
 						</label>
 						<select
 							defaultValue={user?.role}
@@ -156,4 +156,4 @@ const GeneralInformation = () => {
 	);
 };
 
-export default GeneralInformation;
+export default ProfileGeneralInformation;

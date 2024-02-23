@@ -128,7 +128,8 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 										htmlFor='fullName'
 										className='block mb-2 text-sm font-medium text-gray-900 dark:text-white text-start'
 									>
-										Full Name
+										Full Name{" "}
+										<span className='text-red-600 ml-1 font-medium'>*</span>
 									</label>
 									<input
 										type='text'
@@ -150,7 +151,8 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 										htmlFor='email'
 										className='block mb-2 text-sm font-medium text-gray-900 dark:text-white text-start'
 									>
-										Email
+										Email{" "}
+										<span className='text-red-600 ml-1 font-medium'>*</span>
 									</label>
 									<input
 										type='email'
@@ -172,7 +174,8 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 										htmlFor='role'
 										className='block mb-2 text-sm font-medium text-gray-900 dark:text-white text-start'
 									>
-										User Role
+										User Role{" "}
+										<span className='text-red-600 ml-1 font-medium'>*</span>
 									</label>
 									<select
 										defaultValue='admin'
@@ -204,6 +207,7 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 										>
 											Avatar{" "}
 											<span className='text-red-600 ml-1 font-medium'>*</span>
+											<span className='text-red-600 ml-1 font-medium'>*</span>
 										</label>
 										<input
 											type='file'
@@ -225,7 +229,7 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 											<img
 												src={previewSource}
 												alt='Preview'
-												className='rounded-full'
+												className='mb-4 rounded-lg w-24 h-16 sm:mb-0 xl:mb-4 2xl:mb-0'
 											/>
 										)}
 										{!previewSource && (
@@ -243,6 +247,7 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 										className='flex items-start mb-2 text-md ml-1 font-medium text-gray-900 dark:text-white'
 									>
 										Password{" "}
+										<span className='text-red-600 ml-1 font-medium'>*</span>
 										<span className='text-red-600 ml-1 font-medium'>*</span>
 									</label>
 									<input
@@ -271,6 +276,7 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 									>
 										Confirm Password{" "}
 										<span className='text-red-600 ml-1 font-medium'>*</span>
+										<span className='text-red-600 ml-1 font-medium'>*</span>
 									</label>
 									<input
 										type='password'
@@ -296,7 +302,6 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 										</span>
 									)}
 								</div>
-								{/* Other form inputs */}
 							</div>
 							<div className='items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-700  flex gap-2 justify-center'>
 								<button
