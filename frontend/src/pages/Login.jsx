@@ -36,41 +36,50 @@ const Login = () => {
 	}, [user]);
 
 	const onSubmit = async (fieldsData) => {
+		setIsLoading(true);
+
+		const headersList = {
+			Accept: "*/*",
+			"Content-Type": "application/json",
+		};
+
+		const bodyContent = JSON.stringify({
+			email: fieldsData.email,
+			password: fieldsData.password,
+		});
+
+		const reqOptions = {
+			url: loginUserApi,
+			method: "POST",
+			headers: headersList,
+			data: bodyContent,
+		};
+
 		try {
-			setIsLoading(true);
-			// console.log(data);
-			let headersList = {
-				Accept: "*/*",
-				"Content-Type": "application/json",
-			};
+			const response = await axios.request(reqOptions);
 
-			let bodyContent = JSON.stringify({
-				email: fieldsData.email,
-				password: fieldsData.password,
-			});
-
-			let reqOptions = {
-				url: loginUserApi,
-				method: "POST",
-				headers: headersList,
-				data: bodyContent,
-			};
-
-			let { data } = await axios.request(reqOptions);
-
-			if (!data.data.status) {
-				return toast.error(data.message || "User login Failed");
+			if (!response.data) {
+				console.log("");
+				return toast.error(response.data.message || "User login Failed");
 			}
 
-			dispatch(setUser(data.data.user));
-			setUserData(data.data);
-			// console.log(data.data);
+			dispatch(setUser(response.data.data.user));
+
+			setUserData(response.data.data);
+
 			setIsLoading(false);
-			return toast.success(`${data.data?.message || "Successfully logged in!"}`);
+			return toast.success(`${response.data?.message || "Successfully logged in!"}`);
 		} catch (error) {
 			setIsLoading(false);
 			console.log(error);
-			return false;
+
+			if (error.response && error.response.status === 400) {
+				// Handle bad request error
+				return toast.error("Bad request. Please check your inputs.");
+			}
+
+			// Handle other errors
+			return toast.error("An error occurred. Please try again later.");
 		}
 	};
 

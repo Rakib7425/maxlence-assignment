@@ -70,14 +70,14 @@ const Register = () => {
 			console.log(data);
 
 			if (!data.token) {
-				return toast.error(data.message || "User registration Failed");
+				return toast.error(data.message || "User Adding Failed");
 			}
 
 			dispatch(setUser(data));
 			setUserData(data);
 			// console.log(data);
 			setIsLoading(false);
-			return toast.success(`${data?.message || "Successfully registered!"}`);
+			return toast.success(`${data?.message || "Successfully Added!"}`);
 		} catch (error) {
 			console.log(error);
 			setIsLoading(false);
@@ -190,7 +190,7 @@ const Register = () => {
 								htmlFor='role'
 								className='flex items-start mb-2 text-md ml-1 font-medium text-gray-900 dark:text-white '
 							>
-								User Role
+								Role
 							</label>
 							<select
 								defaultValue='admin'

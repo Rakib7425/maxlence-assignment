@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { BsCloudDownload, BsPlus, BsSearch } from "react-icons/bs";
 import { ImArrowLeft, ImArrowRight } from "react-icons/im";
-
 import axios from "axios";
 import { getAllUsersApi } from "../constants/apiUrls";
 import { toast } from "react-toastify";
 import TableRow from "../components/TableRow";
+import AddUserModel from "../components/AddUserModel";
 
 const Dashboard = () => {
 	const [users, setUsers] = useState([]);
+	const [isAddUserModelOpen, setIsAddUserModelOpen] = useState(false);
+	const [needReload, setNeedReload] = useState(false);
 
 	const getAllUsers = async () => {
 		let headersList = {
@@ -34,11 +36,20 @@ const Dashboard = () => {
 
 	useEffect(() => {
 		getAllUsers();
-	}, []);
+	}, [needReload]);
 
 	// const user = useSelector((store) => store.user.userDetails);
 	return (
 		<>
+			{isAddUserModelOpen && (
+				<AddUserModel
+					users={users}
+					setUsers={setUsers}
+					isAddUserModelOpen={isAddUserModelOpen}
+					setIsAddUserModelOpen={setIsAddUserModelOpen}
+				/>
+			)}
+
 			<main className='mt-16 px-2 md:px-3 lg:px-32 xl:px-36'>
 				<div className='py-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 lg:mt-1.5 dark:bg-gray-900 dark:border-gray-700 duration-500'>
 					<div className='w-full mb-1'>
@@ -64,7 +75,7 @@ const Dashboard = () => {
 									</div>
 								</form>
 								<div className='flex justify-center items-center pl-0 mt-3 space-x-1 sm:pl-2 sm:mt-0'>
-									<button className='flex justify-center items-center gap-2 dark:text-gray-400 rounded cursor-pointer hover:text-gray-900  dark:hover:bg-gray-700 dark:hover:text-white bg-slate-400 text-white dark:bg-gray-600  duration-200 py-[9px] px-[10px] mt-1'>
+									<button className='flex justify-center items-center gap-2 dark:text-gray-400 rounded cursor-pointer hover:text-gray-900  dark:hover:bg-gray-700 dark:hover:text-white bg-slate-400 text-white dark:bg-gray-600 duration-200 py-2 px-5 mt-1 md:w-24'>
 										<span>Search</span>
 										<span>
 											<BsSearch />
@@ -77,6 +88,7 @@ const Dashboard = () => {
 									type='button'
 									data-modal-toggle='add-user-modal'
 									className='inline-flex items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+									onClick={() => setIsAddUserModelOpen(!isAddUserModelOpen)}
 								>
 									<span className='font-bold'>
 										<BsPlus size={22} />
@@ -142,7 +154,11 @@ const Dashboard = () => {
 									<tbody className='bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700'>
 										{users &&
 											users.map((user) => (
-												<TableRow user={user} key={user.id} />
+												<TableRow
+													user={user}
+													key={user.id}
+													setNeedReload={setNeedReload}
+												/>
 											))}
 									</tbody>
 								</table>

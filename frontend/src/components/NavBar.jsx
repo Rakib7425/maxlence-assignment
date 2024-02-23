@@ -38,7 +38,7 @@ const NavBar = () => {
 	};
 
 	return (
-		<div className='w-full fixed top-0'>
+		<div className='w-full fixed top-0 shadow-lg '>
 			<nav className='bg-white border-gray-200 dark:bg-gray-900 relative w-full'>
 				<div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
 					<NavLink
