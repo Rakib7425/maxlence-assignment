@@ -2,11 +2,17 @@ import { NavLink, useNavigate } from "react-router-dom";
 import ToggleDarkMode from "./ToggleDarkMode";
 import { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../store/slices/userSlice";
+import { toast } from "react-toastify";
 
 const NavBar = () => {
 	const [isMobileOpenMenu, setIsMobileOpenMenu] = useState(false);
 	const [isUserDropdown, setIsUserDropdown] = useState(false);
 	const navigate = useNavigate();
+
+	const user = useSelector((store) => store.user.userDetails);
+	const dispatch = useDispatch();
 
 	const handleIsMobileOpenMenu = () => {
 		setIsMobileOpenMenu(!isMobileOpenMenu);
@@ -17,12 +23,18 @@ const NavBar = () => {
 		setIsUserDropdown(!isUserDropdown);
 		setIsMobileOpenMenu(false);
 	};
+	const handleProfileClick = () => {
+		setIsMobileOpenMenu(false);
+		setIsUserDropdown(false);
+	};
 
 	const handleSignOut = () => {
 		navigate("/login");
 		handleIsUserDropdown();
 		handleIsMobileOpenMenu();
 		console.log("handleSignOut");
+		dispatch(setUser(null));
+		toast.success("Successfully logged out!");
 	};
 
 	return (
@@ -45,63 +57,70 @@ const NavBar = () => {
 						</span>
 					</NavLink>
 					<div className='flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-2'>
-						<button
-							type='button'
-							className='flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600'
-							id='user-menu-button'
-							aria-expanded='false'
-							data-dropdown-toggle='user-dropdown'
-							data-dropdown-placement='bottom'
-							onClick={handleIsUserDropdown}
-						>
-							<span className='sr-only'>Open user menu</span>
-							<img
-								className='w-8 h-8 rounded-full'
-								src='/docs/images/people/profile-picture-3.jpg'
-								alt='user photo'
-							/>
-						</button>
+						{user?.avatar && (
+							<button
+								type='button'
+								className='flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600'
+								id='user-menu-button'
+								aria-expanded='false'
+								data-dropdown-toggle='user-dropdown'
+								data-dropdown-placement='bottom'
+								onClick={handleIsUserDropdown}
+							>
+								<span className='sr-only'>Open user menu</span>
+								<img
+									className='w-9 h-9 rounded-full bg-clip-text '
+									src={`${
+										user?.avatar ||
+										"https://as2.ftcdn.net/v2/jpg/02/44/43/69/1000_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg"
+									}`}
+									alt='user avatar'
+								/>
+							</button>
+						)}
 						<ToggleDarkMode />
-
-						<div
-							className={`${
-								isUserDropdown ? "" : "hidden"
-							} z-50 absolute ease-out duration-500 top-12 right-20 md:top-10 md:right-32 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600'
+						{user?.avatar && (
+							<div
+								className={`${
+									isUserDropdown ? "" : "hidden"
+								} z-50 absolute ease-out duration-500 top-12 right-20 md:top-10 md:right-32 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600'
 							id='user-dropdown `}
-						>
-							<div className='px-4 py-3'>
-								<span className='block text-sm text-gray-900 dark:text-white'>
-									Bonnie Green
-								</span>
-								<span className='block text-sm  text-gray-500 truncate dark:text-gray-400'>
-									name@maxlence.com
-								</span>
+							>
+								<div className='px-4 py-3'>
+									<span className='block text-sm text-gray-900 dark:text-white'>
+										{user?.fullName}
+									</span>
+									<span className='block text-sm  text-gray-500 truncate dark:text-gray-400'>
+										{user?.email}
+									</span>
+								</div>
+								<ul className='py-2' aria-labelledby='user-menu-button'>
+									<li>
+										<NavLink
+											to={"/user/profile"}
+											className={({ isActive, isPending }) =>
+												isPending
+													? "pending"
+													: isActive
+													? "font-bold mb-1 underline-offset-1 text-black dark:text-yellow-500"
+													: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+											}
+											onClick={handleProfileClick}
+										>
+											Profile
+										</NavLink>
+									</li>
+									<li onClick={handleSignOut}>
+										<NavLink
+											to={"/"}
+											className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
+										>
+											Sign out
+										</NavLink>
+									</li>
+								</ul>
 							</div>
-							<ul className='py-2' aria-labelledby='user-menu-button'>
-								<li>
-									<NavLink
-										to={"/user/profile"}
-										className={({ isActive, isPending }) =>
-											isPending
-												? "pending"
-												: isActive
-												? "font-bold mb-1 underline-offset-1 text-black dark:text-yellow-500"
-												: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-										}
-									>
-										Profile
-									</NavLink>
-								</li>
-								<li onClick={handleSignOut}>
-									<NavLink
-										to={"/"}
-										className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white'
-									>
-										Sign out
-									</NavLink>
-								</li>
-							</ul>
-						</div>
+						)}
 						<button
 							data-collapse-toggle='navbar-user'
 							type='button'
@@ -116,6 +135,7 @@ const NavBar = () => {
 							{/* </span> */}
 						</button>
 					</div>
+
 					<div
 						className={`${
 							isMobileOpenMenu ? "" : "hidden"

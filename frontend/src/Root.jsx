@@ -78,6 +78,7 @@ const Root = () => {
 					toastStyle={{ color: "black", fontSize: "1.09rem" }}
 					closeButton
 					draggable
+					closeOnClick
 					position='top-right'
 					autoClose={2000}
 				/>

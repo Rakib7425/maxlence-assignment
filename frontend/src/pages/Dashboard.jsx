@@ -1,8 +1,42 @@
+import { useEffect, useState } from "react";
 import { BsCloudDownload, BsPlus, BsSearch } from "react-icons/bs";
 import { ImArrowLeft, ImArrowRight } from "react-icons/im";
-import { LuFileEdit } from "react-icons/lu";
+
+import axios from "axios";
+import { getAllUsersApi } from "../constants/apiUrls";
+import { toast } from "react-toastify";
+import TableRow from "../components/TableRow";
 
 const Dashboard = () => {
+	const [users, setUsers] = useState([]);
+
+	const getAllUsers = async () => {
+		let headersList = {
+			Accept: "*/*",
+		};
+
+		let reqOptions = {
+			url: getAllUsersApi,
+			method: "GET",
+			headers: headersList,
+		};
+
+		let { data } = await axios.request(reqOptions);
+
+		if (!data.length > 0) {
+			toast.warn(`Something goes wrong during getting all users!!`);
+		}
+
+		setUsers(data);
+	};
+
+	// console.log(users);
+
+	useEffect(() => {
+		getAllUsers();
+	}, []);
+
+	// const user = useSelector((store) => store.user.userDetails);
 	return (
 		<>
 			<main className='mt-16 px-2 md:px-3 lg:px-32 xl:px-36'>
@@ -49,10 +83,7 @@ const Dashboard = () => {
 									</span>
 									<span>Add user</span>
 								</button>
-								<button
-									href='#'
-									className='inline-flex gap-1 items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700'
-								>
+								<button className='inline-flex gap-1 items-center justify-center w-1/2 px-3 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700'>
 									<span>
 										<BsCloudDownload />
 									</span>
@@ -109,68 +140,10 @@ const Dashboard = () => {
 										</tr>
 									</thead>
 									<tbody className='bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700'>
-										<tr className='hover:bg-gray-100 dark:hover:bg-gray-700 text-center'>
-											<td className='p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white text-center'>
-												1245323585
-											</td>
-
-											<td className='flex items-center justify-center p-3    whitespace-nowrap '>
-												<img
-													className='w-12 h-12 rounded-full'
-													src='https://flowbite-admin-dashboard.vercel.app/images/users/neil-sims.png'
-													alt='Neil Sims avatar'
-												/>
-											</td>
-
-											<td className='p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-												<div className='text-sm font-normal text-gray-500 dark:text-gray-400'>
-													<div className='text-base font-semibold text-gray-900 dark:text-white'>
-														Neil Sims
-													</div>
-													<div className='text-sm font-normal text-gray-500 dark:text-gray-400'>
-														neil.sims@flowbite.com
-													</div>
-												</div>
-											</td>
-											<td className='p-4 text-base font-medium text-gray-900 whitespace-nowrap dark:text-white'>
-												Admin
-											</td>
-											<td className='p-4 text-base font-normal text-gray-900 whitespace-nowrap dark:text-white'>
-												<div className='flex items-center justify-center'>
-													<div className='h-2.5 w-2.5 rounded-full bg-green-400 mr-2'></div>{" "}
-													Active
-												</div>
-											</td>
-											<td className='py-4 space-x-2 whitespace-nowrap'>
-												<button
-													type='button'
-													data-modal-toggle='edit-user-modal'
-													className='inline-flex gap-2 items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
-												>
-													<LuFileEdit color='black' size={17} />
-													<span>Edit user</span>
-												</button>
-												<button
-													type='button'
-													data-modal-toggle='delete-user-modal'
-													className='inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-red-600 rounded-lg hover:bg-red-800 focus:ring-4 focus:ring-red-300 dark:focus:ring-red-900'
-												>
-													<svg
-														className='w-4 h-4 mr-2'
-														fill='currentColor'
-														viewBox='0 0 20 20'
-														xmlns='http://www.w3.org/2000/svg'
-													>
-														<path
-															fillRule='evenodd'
-															d='M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z'
-															clipRule='evenodd'
-														></path>
-													</svg>
-													Delete user
-												</button>
-											</td>
-										</tr>
+										{users &&
+											users.map((user) => (
+												<TableRow user={user} key={user.id} />
+											))}
 									</tbody>
 								</table>
 							</div>
@@ -179,16 +152,10 @@ const Dashboard = () => {
 				</div>
 				<div className='sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700'>
 					<div className='flex items-center mb-4 sm:mb-0'>
-						<button
-							href='#'
-							className='inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-						>
+						<button className='inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
 							<ImArrowLeft />
 						</button>
-						<a
-							href='#'
-							className='inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'
-						>
+						<a className='inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
 							<ImArrowRight />
 						</a>
 						<span className='text-sm font-normal text-gray-500 dark:text-gray-400'>
