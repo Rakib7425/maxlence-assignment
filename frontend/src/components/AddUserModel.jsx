@@ -46,8 +46,8 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 
 	const onSubmit = async (localData) => {
 		try {
-			if (!user.role) {
-				return toast.warn(`You are not a admin !`);
+			if (!user.role === "admin") {
+				return toast.warn(`You are not an admin !`);
 			}
 
 			setIsLoading(true);

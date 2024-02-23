@@ -5,7 +5,7 @@ import { useState } from "react";
 import DeleteUserModel from "./DeleteUserModel";
 
 const TableRow = ({ user, setNeedReload }) => {
-	const [isEditUserModelOpen, setIsEditUserModelOpen] = useState(false);
+	// const [isEditUserModelOpen, setIsEditUserModelOpen] = useState(false);
 
 	const [isDeleteUserModelOpen, setIsDeleteUserModelOpen] = useState(false);
 

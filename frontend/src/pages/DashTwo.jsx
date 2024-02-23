@@ -1,67 +1,44 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
+import { BsCloudDownload, BsPlus, BsSearch } from "react-icons/bs";
+import { ImArrowLeft, ImArrowRight } from "react-icons/im";
 import axios from "axios";
+import { getAllUsersApi } from "../constants/apiUrls";
 import { toast } from "react-toastify";
 import TableRow from "../components/TableRow";
 import AddUserModel from "../components/AddUserModel";
-import { getAllUsersApi } from "../constants/apiUrls";
-import { BsCloudDownload, BsPlus, BsSearch } from "react-icons/bs";
-import { ImArrowLeft, ImArrowRight } from "react-icons/im";
 
 const Dashboard = () => {
 	const [users, setUsers] = useState([]);
-	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [isAddUserModelOpen, setIsAddUserModelOpen] = useState(false);
 	const [needReload, setNeedReload] = useState(false);
-	const [searchTerm, setSearchTerm] = useState("");
-	const [currentPage, setCurrentPage] = useState(1);
 
-	const ITEMS_PER_PAGE = 5;
+	const getAllUsers = async () => {
+		let headersList = {
+			Accept: "*/*",
+		};
+
+		let reqOptions = {
+			url: getAllUsersApi,
+			method: "GET",
+			headers: headersList,
+		};
+
+		let { data } = await axios.request(reqOptions);
+
+		if (!data.length > 0) {
+			toast.warn(`Something goes wrong during getting all users!!`);
+		}
+
+		setUsers(data);
+	};
+
+	// console.log(users);
 
 	useEffect(() => {
 		getAllUsers();
 	}, [needReload]);
 
-	useEffect(() => {
-		filterUsers();
-	}, [users, searchTerm, currentPage, needReload]);
-
-	const getAllUsers = async () => {
-		try {
-			const response = await axios.get(getAllUsersApi);
-			setUsers(response.data);
-		} catch (error) {
-			toast.error("Error fetching users");
-		}
-	};
-
-	const filterUsers = () => {
-		const filtered = users.filter((user) =>
-			user.email.toLowerCase().includes(searchTerm.toLowerCase())
-		);
-		setFilteredUsers(filtered);
-	};
-
-	const handleSearchChange = (e) => {
-		setSearchTerm(e.target.value);
-	};
-
-	const handleNextPage = () => {
-		setCurrentPage((prevPage) => prevPage + 1);
-	};
-
-	const handlePrevPage = () => {
-		setCurrentPage((prevPage) => prevPage - 1);
-	};
-
-	// const handlePageChange = (pageNumber) => {
-	// 	setCurrentPage(pageNumber);
-	// };
-
-	const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
-	const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-	const currentItems = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
-
+	// const user = useSelector((store) => store.user.userDetails);
 	return (
 		<>
 			{isAddUserModelOpen && (
@@ -94,8 +71,6 @@ const Dashboard = () => {
 											id='users-search'
 											className='bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
 											placeholder='Search for users by email'
-											value={searchTerm}
-											onChange={handleSearchChange}
 										/>
 									</div>
 								</form>
@@ -177,13 +152,14 @@ const Dashboard = () => {
 										</tr>
 									</thead>
 									<tbody className='bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700'>
-										{currentItems.map((user) => (
-											<TableRow
-												key={user.id}
-												user={user}
-												setNeedReload={setNeedReload}
-											/>
-										))}
+										{users &&
+											users.map((user) => (
+												<TableRow
+													user={user}
+													key={user.id}
+													setNeedReload={setNeedReload}
+												/>
+											))}
 									</tbody>
 								</table>
 							</div>
@@ -191,49 +167,32 @@ const Dashboard = () => {
 					</div>
 				</div>
 				<div className='sticky bottom-0 right-0 items-center w-full p-4 bg-white border-t border-gray-200 sm:flex sm:justify-between dark:bg-gray-800 dark:border-gray-700'>
-					<div className='flex items-center mb-4 sm:mb-0 mt-10 md:ml-[20px]'>
-						<button
-							onClick={handlePrevPage}
-							disabled={currentPage === 1}
-							className='inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:cursor-not-allowed'
-						>
+					<div className='flex items-center mb-4 sm:mb-0'>
+						<button className='inline-flex justify-center p-1 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
 							<ImArrowLeft />
 						</button>
+						<a className='inline-flex justify-center p-1 mr-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
+							<ImArrowRight />
+						</a>
 						<span className='text-sm font-normal text-gray-500 dark:text-gray-400'>
 							Showing{" "}
 							<span className='font-semibold text-gray-900 dark:text-white'>
-								{indexOfFirstItem + 1}-
-								{Math.min(indexOfLastItem, filteredUsers.length)}
+								1-20
 							</span>{" "}
 							of{" "}
 							<span className='font-semibold text-gray-900 dark:text-white'>
-								{filteredUsers.length}
+								2290
 							</span>
 						</span>
-						<button
-							onClick={handleNextPage}
-							disabled={indexOfLastItem >= filteredUsers.length}
-							className='inline-flex justify-center p-1 ml-2 text-gray-500 rounded cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white disabled:cursor-not-allowed'
-						>
-							<ImArrowRight />
-						</button>
 					</div>
-					<div className='flex items-center space-x-3 md:mr-[4.3%]'>
-						<button
-							className='inline-flex gap-1 items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed'
-							onClick={handlePrevPage}
-							disabled={currentPage === 1}
-						>
+					<div className='flex items-center space-x-3'>
+						<button className='inline-flex gap-1 items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
 							<span>
 								<ImArrowLeft />
 							</span>
 							<span>Prev</span>
 						</button>
-						<button
-							className='inline-flex gap-1 items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:cursor-not-allowed'
-							onClick={handleNextPage}
-							disabled={indexOfLastItem >= filteredUsers.length}
-						>
+						<button className='inline-flex gap-1 items-center justify-center flex-1 px-3 py-2 text-sm font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'>
 							<span>Next</span>
 							<span>
 								<ImArrowRight />
