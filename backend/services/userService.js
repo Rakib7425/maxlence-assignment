@@ -71,9 +71,11 @@ const userService = {
     updateUserAvatar: async (userId, avatarPath) => {
         try {
             const user = await User.findByPk(userId);
+
             if (!user) {
                 throw new Error('User not found');
             }
+
             // Upload the avatar image to Cloudinary
             const cloudinaryRes = await uploadOnCloudinary(avatarPath);
 
@@ -85,8 +87,18 @@ const userService = {
 
             return updatedUser.toJSON(); // Return the updated user object
         } catch (error) {
-            throw error;
+            // Handle specific error cases
+            if (error.message === 'User not found') {
+                throw new Error('User not found. Unable to update avatar.');
+            } else if (error.code === 'SOME_SPECIFIC_ERROR_CODE') {
+                // Handle specific error code
+            } else {
+                // For other errors, log and throw a generic error message
+                console.error('An error occurred:', error);
+                throw new Error('Failed to update avatar. Please try again later.');
+            }
         }
+
     },
 
     // Function to delete a user

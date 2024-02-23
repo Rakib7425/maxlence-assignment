@@ -232,7 +232,7 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 											<img
 												src='https://as2.ftcdn.net/v2/jpg/02/44/43/69/1000_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg'
 												alt='Hello avatar'
-												className='rounded-full'
+												className='rounded-full opacity-60'
 											/>
 										)}
 									</div>

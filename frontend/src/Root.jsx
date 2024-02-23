@@ -11,9 +11,9 @@ import App from "./App.jsx";
 import Login from "./pages/Login.jsx";
 import NavBar from "./components/NavBar.jsx";
 import Register from "./pages/Register.jsx";
-import UserProfile from "./components/UserProfile.jsx";
 import Profile from "./pages/Profile.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
+import NotFound from "./pages/NotFound";
 
 const router = createBrowserRouter([
 	{
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "profile",
-				element: <UserProfile />,
+				element: <Profile />,
 			},
 		],
 	},
@@ -64,6 +64,18 @@ const router = createBrowserRouter([
 			<>
 				<NavBar />
 				<ForgotPassword />
+			</>
+		),
+	},
+	{
+		path: "*",
+		element: (
+			<>
+				{/* <NotFound /> */}
+				<div>Page Not Found</div>
+				<a href='/' className='py-2 px-5 bg-blue-600'>
+					goto home
+				</a>
 			</>
 		),
 	},
