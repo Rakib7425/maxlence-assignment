@@ -1,6 +1,7 @@
 const { Sequelize } = require('sequelize');
 
 const dbHost = process.env.DB_HOST || 'localhost';
+const dbPort = process.env.DB_PORT || 3306;
 const dbName = process.env.DB_NAME || 'maxlence';
 const dbUserName = process.env.DB_USER_NAME || 'root';
 const dbPassword = process.env.DB_PASSWORD || '';
@@ -8,6 +9,7 @@ const dbPassword = process.env.DB_PASSWORD || '';
 const db = new Sequelize(dbName, dbUserName, dbPassword, {
     host: dbHost,
     dialect: 'mysql',
+    port: dbPort
 });
 
 // Test the database connection

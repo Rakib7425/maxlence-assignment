@@ -14,7 +14,7 @@ This project is an implementation of a MERN (MongoDB, Express.js, React.js, Node
 -   Once the email is verified, the user can log in to the application using their email and password.
 -   The backend verifies the user's credentials, generates a JWT token with a refresh token, and sends it back to the client.
 
-### 2. Password Reset: --TODO--
+### 2. Password Reset:
 
 -   If a user forgets their password, they can request a password reset.
 -   User provides their email address and requests a password reset.

@@ -8,7 +8,6 @@ router.post('/register', upload.single("avatar"), authController.register);
 router.post('/login', authController.login);
 router.patch('/change-password', verifyJWT, authController.changePassword);
 
-// To be implement
 router.post('/forgot-password', authController.forgotPassword);
 router.post('/reset-password/:token', authController.resetPassword);
 

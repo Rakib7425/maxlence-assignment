@@ -79,7 +79,9 @@ const Login = () => {
 			}
 
 			// Handle other errors
-			return toast.error("An error occurred. Please try again later.");
+			return toast.error(
+				error.response.data.data?.message || "An error occurred. Please try again later."
+			);
 		}
 	};
 

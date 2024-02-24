@@ -23,7 +23,7 @@ const registerUser = async (userData, id, localFilePath) => {
             fullName: userData.fullName,
             email: userData.email,
             password: hashedPassword,
-            avatar: cloudinaryResponse.secure_url,
+            avatar: cloudinaryResponse?.secure_url,
             token,
             role: userData.role,
         });
