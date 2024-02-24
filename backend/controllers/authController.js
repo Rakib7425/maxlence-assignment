@@ -56,8 +56,8 @@ exports.forgotPassword = async (req, res) => {
         res.status(200).json({ message: 'Password reset link sent successfully' });
     } catch (error) {
         // Handle errors
-        console.error('Error sending password reset link:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Error sending password reset link:', error?.message || error);
+        res.status(500).json({ error: error?.message || 'Internal server error' });
     }
 };
 
@@ -66,7 +66,7 @@ exports.forgotPassword = async (req, res) => {
 exports.resetPassword = async (req, res) => {
     try {
         // Call resetPassword function from authService
-        const result = await authService.resetPassword(req.body.token, req.body.password);
+        const result = await authService.resetPassword(req.params.token, req.body.password);
 
         // Handle the result and send appropriate response
         res.status(200).json({ message: 'Password reset successfully' });

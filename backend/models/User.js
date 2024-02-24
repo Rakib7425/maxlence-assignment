@@ -31,6 +31,10 @@ const User = db.define('User', {
     role: {
         type: Sequelize.STRING,
         defaultValue: 'user'
+    },
+    resetToken: {
+        type: Sequelize.STRING,
+        allowNull: true
     }
 });
 module.exports = User;

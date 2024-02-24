@@ -7,3 +7,4 @@ export const changeUserPasswordApi = 'http://localhost:8080/api/auth/change-pass
 export const getAllUsersApi = 'http://localhost:8080/api/user'
 export const getUserByIdApi = 'http://localhost:8080/api/user/'
 export const deleteUserApi = 'http://localhost:8080/api/user/delete'
+export const forgotPasswordApi = 'http://localhost:8080/api/auth/forgot-password'

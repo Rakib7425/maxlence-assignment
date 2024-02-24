@@ -10,6 +10,6 @@ router.patch('/change-password', verifyJWT, authController.changePassword);
 
 // To be implement
 router.post('/forgot-password', authController.forgotPassword);
-router.post('/reset-password', authController.resetPassword);
+router.post('/reset-password/:token', authController.resetPassword);
 
 module.exports = router;

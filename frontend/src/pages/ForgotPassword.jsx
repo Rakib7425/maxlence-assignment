@@ -1,15 +1,45 @@
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { reuseInputClassnames } from "../constants/adminConstants";
+import { forgotPasswordApi } from "../constants/apiUrls";
+import { toast } from "react-toastify";
+import Spinner from "../components/Spinner";
 
 const ForgotPassword = () => {
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isSubmitting },
 	} = useForm();
 
-	const onSubmit = (data) => {
-		console.log(data); // You can replace this with your password reset logic
+	const onSubmit = async (data) => {
+		try {
+			// console.log(data);
+
+			let headersList = {
+				Accept: "*/*",
+				"Content-Type": "application/json",
+			};
+
+			let bodyContent = JSON.stringify({
+				email: data.email,
+			});
+
+			let reqOptions = {
+				url: forgotPasswordApi,
+				method: "POST",
+				headers: headersList,
+				data: bodyContent,
+			};
+
+			let response = await axios.request(reqOptions);
+
+			console.log(response.data);
+			toast.success(`${response.data?.message || "Reset link has been sent"}`);
+		} catch (error) {
+			console.log(error);
+			toast.error(`${error?.message || "Reset link not send!"}`);
+		}
 	};
 
 	return (
@@ -40,7 +70,9 @@ const ForgotPassword = () => {
 								placeholder='name@company.com'
 							/>
 							{errors.email && (
-								<p className='text-sm text-red-500'>{errors.email.message}</p>
+								<p className='text-base text-red-500 mt-1 '>
+									{errors.email.message}
+								</p>
 							)}
 						</div>
 						<div className='flex items-start'>
@@ -51,6 +83,7 @@ const ForgotPassword = () => {
 									name='remember'
 									type='checkbox'
 									className='w-4 h-4 border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600'
+									defaultChecked={true}
 								/>
 							</div>
 							<div className='ml-3 text-sm'>
@@ -71,9 +104,15 @@ const ForgotPassword = () => {
 
 						<button
 							type='submit'
-							className='w-full px-5 py-3 bg-slate-600 hover:bg-slate-800 dark:hover:bg-stone-800 duration-200 ease-out dark:bg-zinc-900 text-base font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+							className='w-full px-5 py-3 bg-slate-600 hover:bg-slate-800 dark:hover:bg-stone-800 duration-200 ease-out dark:bg-zinc-900 text-base font-medium text-center text-white  rounded-lg  focus:ring-4 focus:ring-blue-300 sm:w-auto dark:focus:ring-blue-800'
 						>
 							Send reset password link
+							<span className='mr-2 '>Send reset password link</span>
+							{isSubmitting && (
+								<span className='pt-1'>
+									<Spinner />
+								</span>
+							)}
 						</button>
 					</form>
 				</div>

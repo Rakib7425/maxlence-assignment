@@ -5,23 +5,22 @@ const emailService = {
         try {
             // Create a Nodemailer transporter
             const transporter = nodemailer.createTransport({
-                // My email service provider and authentication details
-                user: "smtp.gmail.com",
+                host: "smtp.gmail.com",
                 port: 465,
-                secure: true,
-                service: 'gmail',
+                // secure: true,
                 auth: {
-                    user: 'maxlence0@gmail.com',
-                    pass: 'Maxlence@123.org'
+                    user: 'rakibulrsm7@gmail.com',
+                    // pass: 'Rakibul@RsM123'
+                    pass: 'tajn mlog kibz fezq' // Custom app password from gmail
                 }
             });
 
             // Send email
             const mailOptions = {
-                from: 'maxlence0@gmail.com',
+                from: 'rakibulrsm7@gmail.com',
                 to: email,
                 subject: 'Password Reset Request',
-                text: `Click the following link to reset your password: http://myapp.com/reset-password/${resetToken}`,
+                text: `Click the following link to reset your password: http://localhost:5173/reset-password/${resetToken}`,
                 // HTML version of the email can be provided here as well
             };
 
