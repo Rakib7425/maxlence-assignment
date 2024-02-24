@@ -73,6 +73,7 @@ exports.resetPassword = async (req, res) => {
     } catch (error) {
         // Handle errors
         console.error('Error resetting password:', error);
-        res.status(500).json({ error: 'Internal server error' });
+
+        res.status(500).json({ error, message: error?.message || 'Internal server error' });
     }
 };

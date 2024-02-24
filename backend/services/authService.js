@@ -109,6 +109,7 @@ const forgotPassword = async (email) => {
     }
 };
 
+
 const resetPassword = async (token, newPassword) => {
     try {
         // Find user by resetToken
@@ -117,13 +118,17 @@ const resetPassword = async (token, newPassword) => {
             throw new Error('Invalid or expired reset token');
         }
 
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(newPassword, 10); // You can adjust the salt rounds as needed
+
         // Update user's password and resetToken in the database
-        await user.update({ password: newPassword, resetToken: null });
+        await user.update({ password: hashedPassword, resetToken: null });
 
         return { message: 'Password reset successfully' };
     } catch (error) {
         throw error;
     }
 };
+
 
 module.exports = { registerUser, loginUser, changePassword, forgotPassword, resetPassword }

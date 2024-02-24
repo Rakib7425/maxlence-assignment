@@ -108,7 +108,8 @@ const ForgotPassword = () => {
 
 						<button
 							type='submit'
-							className='w-full px-5 py-3 bg-slate-600 hover:bg-slate-800 dark:hover:bg-stone-800 duration-200 ease-out dark:bg-zinc-900 text-base font-medium text-center text-white  rounded-lg  focus:ring-4 focus:ring-blue-300 sm:w-auto dark:focus:ring-blue-800 inline-flex justify-center items-center'
+							disabled={isSubmitting}
+							className='w-full px-5 py-3 bg-slate-600 hover:bg-slate-800 dark:hover:bg-stone-800 duration-200 ease-out dark:bg-zinc-900 text-base font-medium text-center text-white  rounded-lg  focus:ring-4 focus:ring-blue-300 sm:w-auto dark:focus:ring-blue-800 inline-flex justify-center items-center disabled:cursor-not-allowed disabled:opacity-50'
 						>
 							<span className='mr-2 '>Send reset password link</span>
 							{isSubmitting && (

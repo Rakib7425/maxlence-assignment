@@ -4,6 +4,7 @@ import { reuseInputClassnames } from "../constants/adminConstants";
 import { resetPasswordApi } from "../constants/apiUrls";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
+import { useNavigate, useParams } from "react-router-dom";
 
 const ResetPassword = () => {
 	const {
@@ -13,35 +14,40 @@ const ResetPassword = () => {
 		formState: { errors, isSubmitting },
 	} = useForm();
 
+	const { resetToken } = useParams();
+	const navigate = useNavigate();
+
 	const onSubmit = async (data) => {
 		try {
-			// console.log(data);
-
-			let headersList = {
+			const headersList = {
 				Accept: "*/*",
 				"Content-Type": "application/json",
 			};
 
-			let bodyContent = JSON.stringify({
+			const bodyContent = JSON.stringify({
 				password: data.password,
 			});
 
-			let reqOptions = {
-				url: resetPasswordApi,
+			// const resetToken = "6a5eb357-31a6-4837-8f19-877f54b7a1e3"; // You might want to handle token retrieval differently
+			const reqOptions = {
+				url: `${resetPasswordApi}/${resetToken}`,
 				method: "POST",
 				headers: headersList,
 				data: bodyContent,
 			};
 
-			let response = await axios.request(reqOptions);
+			const response = await axios.request(reqOptions);
 			console.log(response.data);
 
-			console.log(response.data);
 			resetField("password");
+			navigate("/login");
 			return toast.success(`${response.data?.message || "Password Reset successfully"}`);
 		} catch (error) {
-			console.log(error);
-			return toast.error(`${error?.message || "Server error!"}`);
+			// Handle errors
+			console.error("Password reset failed:", error);
+			return toast.error(
+				error.response?.data?.message || "Failed to reset password. Please try again later."
+			);
 		}
 	};
 
@@ -111,7 +117,8 @@ const ResetPassword = () => {
 
 						<button
 							type='submit'
-							className='w-full px-5 py-3 bg-slate-600 hover:bg-slate-800 dark:hover:bg-stone-800 duration-200 ease-out dark:bg-zinc-900 text-base font-medium text-center text-white  rounded-lg  focus:ring-4 focus:ring-blue-300 sm:w-auto dark:focus:ring-blue-800 inline-flex justify-center items-center'
+							className='w-full px-5 py-3 bg-slate-600 hover:bg-slate-800 dark:hover:bg-stone-800 duration-200 ease-out dark:bg-zinc-900 text-base font-medium text-center text-white  rounded-lg  focus:ring-4 focus:ring-blue-300 sm:w-auto dark:focus:ring-blue-800 inline-flex justify-center items-center disabled:cursor-not-allowed disabled:opacity-50'
+							disabled={isSubmitting}
 						>
 							<span className='mr-2 '>Reset your Password</span>
 							{isSubmitting && (
