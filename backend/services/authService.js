@@ -23,7 +23,7 @@ const registerUser = async (userData, id, localFilePath) => {
             fullName: userData.fullName,
             email: userData.email,
             password: hashedPassword,
-            avatar: cloudinaryResponse?.secure_url,
+            avatar: cloudinaryResponse?.secure_url || "https://as2.ftcdn.net/v2/jpg/02/44/43/69/1000_F_244436923_vkMe10KKKiw5bjhZeRDT05moxWcPpdmb.jpg",
             token,
             role: userData.role,
         });

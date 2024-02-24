@@ -9,7 +9,7 @@ const dbPassword = process.env.DB_PASSWORD || '';
 const db = new Sequelize(dbName, dbUserName, dbPassword, {
     host: dbHost,
     dialect: 'mysql',
-    port: dbPort
+    port: dbPort,
 });
 
 // Test the database connection
