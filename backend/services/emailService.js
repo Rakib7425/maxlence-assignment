@@ -5,17 +5,20 @@ const emailService = {
         try {
             // Create a Nodemailer transporter
             const transporter = nodemailer.createTransport({
-                // Specify my email service provider and authentication details
+                // My email service provider and authentication details
+                user: "smtp.gmail.com",
+                port: 465,
+                secure: true,
                 service: 'gmail',
                 auth: {
-                    user: 'my_email@gmail.com',
-                    pass: 'my_email_password'
+                    user: 'maxlence0@gmail.com',
+                    pass: 'Maxlence@123.org'
                 }
             });
 
             // Send email
             const mailOptions = {
-                from: 'my_email@gmail.com',
+                from: 'maxlence0@gmail.com',
                 to: email,
                 subject: 'Password Reset Request',
                 text: `Click the following link to reset your password: http://myapp.com/reset-password/${resetToken}`,
