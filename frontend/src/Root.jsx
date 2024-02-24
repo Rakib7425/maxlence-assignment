@@ -14,6 +14,7 @@ import Register from "./pages/Register.jsx";
 import Profile from "./pages/Profile.jsx";
 import ForgotPassword from "./pages/ForgotPassword.jsx";
 import NotFound from "./pages/NotFound";
+import ResetPassword from "./pages/ResetPassword.jsx";
 
 const router = createBrowserRouter([
 	{
@@ -68,14 +69,23 @@ const router = createBrowserRouter([
 		),
 	},
 	{
+		path: "/reset-password/:resetToken",
+		element: (
+			<>
+				<NavBar />
+				<ResetPassword />
+			</>
+		),
+	},
+	{
 		path: "*",
 		element: (
 			<>
-				{/* <NotFound /> */}
-				<div>Page Not Found</div>
-				<a href='/' className='py-2 px-5 bg-blue-600'>
+				<NotFound />
+				{/* <div>Page Not Found</div>
+				<a href='/login' className='py-2 px-5 bg-blue-600'>
 					goto home
-				</a>
+				</a> */}
 			</>
 		),
 	},

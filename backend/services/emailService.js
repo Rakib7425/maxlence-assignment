@@ -7,17 +7,17 @@ const emailService = {
             const transporter = nodemailer.createTransport({
                 host: "smtp.gmail.com",
                 port: 465,
-                // secure: true,
+                secure: true,
                 auth: {
-                    user: 'rakibulrsm7@gmail.com',
+                    user: 'narzima6279462@gmail.com',
                     // pass: 'Rakibul@RsM123'
-                    pass: 'tajn mlog kibz fezq' // Custom app password from gmail
+                    pass: 'buet sevo gqxe arjm' // Custom app password from gmail
                 }
             });
 
             // Send email
             const mailOptions = {
-                from: 'rakibulrsm7@gmail.com',
+                from: 'narzima6279462@gmail.com',
                 to: email,
                 subject: 'Password Reset Request',
                 text: `Click the following link to reset your password: http://localhost:5173/reset-password/${resetToken}`,
