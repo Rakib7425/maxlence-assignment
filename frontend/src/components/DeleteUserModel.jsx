@@ -2,12 +2,13 @@
 /* eslint-disable react/prop-types */
 
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { deleteUserApi } from "../constants/apiUrls";
 import { ImCross } from "react-icons/im";
 import { toast } from "react-toastify";
 import Spinner from "./Spinner";
+import handleModelClose from "../utils/handleModelClose";
 
 const DeleteUserModel = ({ userId, setIsDeleteUserModelOpen, setNeedReload }) => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +17,12 @@ const DeleteUserModel = ({ userId, setIsDeleteUserModelOpen, setNeedReload }) =>
 	// console.log(loggedInUser);
 
 	// console.log(userId);
+
+	const ref = useRef(null);
+
+	useEffect(() => {
+		handleModelClose(setIsDeleteUserModelOpen, ref);
+	}, [setIsDeleteUserModelOpen, ref]);
 
 	const handledDeleteUser = async () => {
 		try {
@@ -70,7 +77,7 @@ const DeleteUserModel = ({ userId, setIsDeleteUserModelOpen, setNeedReload }) =>
 				aria-modal='true'
 				role='dialog'
 			>
-				<div className='relative w-full h-full max-w-md px-4 md:h-auto'>
+				<div className='relative w-full h-full max-w-md px-4 md:h-auto' ref={ref}>
 					{/* <!-- Modal content --> */}
 					<div className='relative bg-white rounded-lg shadow dark:bg-gray-900'>
 						{/* <!-- Modal header --> */}

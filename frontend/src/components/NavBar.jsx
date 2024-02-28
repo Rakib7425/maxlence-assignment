@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import ToggleDarkMode from "./ToggleDarkMode";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../store/slices/userSlice";
@@ -13,6 +13,30 @@ const NavBar = () => {
 
 	const user = useSelector((store) => store.user.userDetails);
 	const dispatch = useDispatch();
+
+	const ref = useRef(null);
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (ref.current && !ref.current.contains(event.target)) {
+				setIsUserDropdown(false);
+			}
+		};
+
+		const handleEscapeKey = (event) => {
+			if (event.key === "Escape") {
+				setIsUserDropdown(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		document.addEventListener("keydown", handleEscapeKey);
+
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+			document.removeEventListener("keydown", handleEscapeKey);
+		};
+	}, [setIsUserDropdown, ref]);
 
 	const handleIsMobileOpenMenu = () => {
 		setIsMobileOpenMenu(!isMobileOpenMenu);
@@ -42,7 +66,7 @@ const NavBar = () => {
 			<nav className='bg-white border-gray-200 dark:bg-gray-900 relative w-full'>
 				<div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
 					<NavLink
-						to={"/"}
+						to={`${user ? "/" : "/login"}`}
 						className={({ isActive, isPending }) =>
 							isPending
 								? "pending"
@@ -56,7 +80,10 @@ const NavBar = () => {
 							Maxlence
 						</span>
 					</NavLink>
-					<div className='flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-2'>
+					<div
+						className='flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-2'
+						ref={ref}
+					>
 						{user?.avatar && (
 							<button
 								type='button'
@@ -160,20 +187,7 @@ const NavBar = () => {
 									</NavLink>
 								</li>
 							) : (
-								<li>
-									<NavLink
-										to={"/login"}
-										className={({ isActive, isPending }) =>
-											isPending
-												? "pending"
-												: isActive
-												? "font-bold md:text-xl bg-blue-700 md:bg-transparent py-2 px-3 underline-offset-1 text-black dark:text-yellow-200 block md:inline rounded duration-300 ease-out"
-												: "block md:inline py-2 px-3 text-white rounded  md:text-blue-700 md:p-0 md:dark:text-blue-500 md:text-xl duration-300 ease-out"
-										}
-									>
-										Login
-									</NavLink>
-								</li>
+								<li></li>
 							)}
 						</ul>
 					</div>

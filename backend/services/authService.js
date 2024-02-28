@@ -86,7 +86,7 @@ const changePassword = async (id, newUserDetails) => {
     }
 }
 
-const forgotPassword = async (email) => {
+const forgotPassword = async (email, origin) => {
     try {
         // Find user by email
         const user = await User.findOne({ where: { email } });
@@ -101,7 +101,7 @@ const forgotPassword = async (email) => {
         await user.update({ resetToken });
 
         // Send password reset email with reset link
-        await sendPasswordResetEmail(email, resetToken);
+        await sendPasswordResetEmail(email, resetToken, origin);
 
         return { message: 'Password reset email sent successfully' };
     } catch (error) {

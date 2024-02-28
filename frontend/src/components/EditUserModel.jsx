@@ -2,14 +2,15 @@
 /* eslint-disable react/prop-types */
 
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { ImCross } from "react-icons/im";
-import { registerUserApi, updateUserDetailsApi } from "../constants/apiUrls";
+import { updateUserDetailsApi } from "../constants/apiUrls";
 import { reuseInputClassnames } from "../constants/adminConstants";
 import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
+import handleModelClose from "../utils/handleModelClose";
 
 // shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
 
@@ -26,6 +27,7 @@ const EditUserModel = ({ user, isEditUserModelOpen, setIsEditUserModelOpen, setN
 	const [previewSource, setPreviewSource] = useState("");
 	const [avatar, setAvatar] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+	const ref = useRef(null);
 
 	const password = watch("password");
 
@@ -44,6 +46,10 @@ const EditUserModel = ({ user, isEditUserModelOpen, setIsEditUserModelOpen, setN
 		previewFile(file);
 		setAvatar(file);
 	};
+
+	useEffect(() => {
+		handleModelClose(setIsEditUserModelOpen, ref);
+	}, [setIsEditUserModelOpen, ref]);
 
 	const onSubmit = async (localData) => {
 		try {
@@ -100,7 +106,7 @@ const EditUserModel = ({ user, isEditUserModelOpen, setIsEditUserModelOpen, setN
 			role={`${isEditUserModelOpen ? "dialog" : ""}`}
 			aria-hidden={`${isEditUserModelOpen ? "false" : "true"}`}
 		>
-			<div className='relative w-full h-full max-w-2xl px-4 md:h-auto'>
+			<div className='relative w-full h-full max-w-2xl px-4 md:h-auto ' ref={ref}>
 				<div className='relative bg-white rounded-lg shadow dark:bg-gray-800'>
 					<div className='flex items-start justify-between p-5 border-b rounded-t dark:border-gray-700'>
 						<h3 className='text-xl font-semibold dark:text-white'>Edit user</h3>
@@ -185,6 +191,7 @@ const EditUserModel = ({ user, isEditUserModelOpen, setIsEditUserModelOpen, setN
 										</label>
 										<input
 											type='file'
+											accept='image/*'
 											id='avatar'
 											required
 											onChange={handleFileInputChange}

@@ -4,6 +4,7 @@ import { reuseInputClassnames } from "../constants/adminConstants";
 import { forgotPasswordApi } from "../constants/apiUrls";
 import { toast } from "react-toastify";
 import Spinner from "../components/Spinner";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassword = () => {
 	const {
@@ -12,6 +13,7 @@ const ForgotPassword = () => {
 		resetField,
 		formState: { errors, isSubmitting },
 	} = useForm();
+	const navigate = useNavigate();
 
 	const onSubmit = async (data) => {
 		try {
@@ -37,7 +39,10 @@ const ForgotPassword = () => {
 
 			console.log(response.data);
 			resetField("email");
-			return toast.success(`${response.data?.message || "Reset link has been sent"}`);
+			navigate("/login");
+			return toast.success(
+				`${response.data?.message + " check your email" || "Reset link has been sent"}`
+			);
 		} catch (error) {
 			console.log(error);
 			return toast.error(

@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import { ImCross } from "react-icons/im";
 import { toast } from "react-toastify";
 import { registerUserApi } from "../constants/apiUrls";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { reuseInputClassnames } from "../constants/adminConstants";
 import axios from "axios";
 import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
+import handleModelClose from "../utils/handleModelClose";
 
 // shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
 
@@ -27,8 +28,13 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 	const [previewSource, setPreviewSource] = useState("");
 	const [avatar, setAvatar] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+	const ref = useRef(null);
 
 	const password = watch("password");
+
+	useEffect(() => {
+		handleModelClose(setIsAddUserModelOpen, ref);
+	}, [setIsAddUserModelOpen, ref]);
 
 	const previewFile = (file) => {
 		const reader = new FileReader();
@@ -97,13 +103,13 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 			className={`${
 				isAddUserModelOpen
 					? "fixed left-0 right-0 z-50 items-center justify-center overflow-x-hidden overflow-y-auto top-4 md:inset-0 h-modal sm:h-full flex bg-slate-900 bg-opacity-50 duration-300 ease-out"
-					: "fixed left-0 right-0 z-50 items-center justify-center overflow-x-hidden overflow-y-auto top-4 md:inset-0 h-modal sm:h-full hidden"
+					: "fixed left-0 right-0 z-50 items-center justify-center overflow-x-hidden overflow-y-auto top-4 md:inset-0 h-modal sm:h-full hidden "
 			}`}
 			aria-modal={`${isAddUserModelOpen ? "true" : "false"}`}
 			role={`${isAddUserModelOpen ? "dialog" : ""}`}
 			aria-hidden={`${isAddUserModelOpen ? "false" : "true"}`}
 		>
-			<div className='relative w-full h-full max-w-2xl px-4 md:h-auto'>
+			<div className='relative w-full h-full max-w-2xl px-4 md:h-auto' ref={ref}>
 				<div className='relative bg-white rounded-lg shadow dark:bg-gray-800'>
 					<div className='flex items-start justify-between p-5 border-b rounded-t dark:border-gray-700'>
 						<h3 className='text-xl font-semibold dark:text-white'>Add new user</h3>
@@ -211,6 +217,7 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 										</label>
 										<input
 											type='file'
+											accept='image/*'
 											id='avatar'
 											required
 											onChange={handleFileInputChange}

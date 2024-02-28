@@ -141,6 +141,7 @@ const Login = () => {
 								id='remember'
 								aria-describedby='remember'
 								name='remember'
+								defaultChecked={true}
 								type='checkbox'
 								className='w-4 h-4 border-gray-500 outline-none rounded bg-gray-100 focus:ring-3 focus:ring-blue-300 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600 '
 							/>

@@ -7,9 +7,13 @@ import AddUserModel from "../components/AddUserModel";
 import { getAllUsersApi } from "../constants/apiUrls";
 import { BsCloudDownload, BsPlus, BsSearch } from "react-icons/bs";
 import { ImArrowLeft, ImArrowRight } from "react-icons/im";
+import ShimmerUi from "../components/ShimmerUi";
 
 const Dashboard = () => {
 	const [users, setUsers] = useState([]);
+
+	const [isLoading, setIsLoading] = useState(false);
+
 	const [filteredUsers, setFilteredUsers] = useState([]);
 	const [isAddUserModelOpen, setIsAddUserModelOpen] = useState(false);
 	const [needReload, setNeedReload] = useState(false);
@@ -27,10 +31,13 @@ const Dashboard = () => {
 
 	const getAllUsers = async () => {
 		try {
+			setIsLoading(true);
 			const response = await axios.get(getAllUsersApi);
 			setUsers(response.data);
+			setIsLoading(false);
 		} catch (error) {
-			toast.error("Error fetching users");
+			setIsLoading(false);
+			return toast.error("Error fetching users");
 		}
 	};
 
@@ -186,10 +193,15 @@ const Dashboard = () => {
 										))}
 									</tbody>
 								</table>
-								{currentItems.length < 1 && (
+								{currentItems.length < 1 && !isLoading && (
 									<h1 className='w-full bg-transparent flex justify-center items-center text-lg dark:text-red-600 py-4 duration-500 ease-out'>
-										No user found with email: {searchTerm}
+										No user found : {searchTerm}
 									</h1>
+								)}
+								{isLoading && (
+									<>
+										<ShimmerUi />
+									</>
 								)}
 							</div>
 						</div>

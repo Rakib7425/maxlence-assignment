@@ -161,6 +161,7 @@ const Register = () => {
 								<input
 									type='file'
 									id='avatar'
+									accept='image/*'
 									required
 									onChange={handleFileInputChange}
 									className={`${reuseInputClassnames}`}
