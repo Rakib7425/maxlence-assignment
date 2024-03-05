@@ -9,6 +9,7 @@ import { ImCross } from "react-icons/im";
 import { toast } from "react-toastify";
 import Spinner from "./Spinner";
 import handleModelClose from "../utils/handleModelClose";
+import { motion } from "framer-motion";
 
 const DeleteUserModel = ({ userId, setIsDeleteUserModelOpen, setNeedReload }) => {
 	const [isLoading, setIsLoading] = useState(false);
@@ -77,7 +78,12 @@ const DeleteUserModel = ({ userId, setIsDeleteUserModelOpen, setNeedReload }) =>
 				aria-modal='true'
 				role='dialog'
 			>
-				<div className='relative w-full h-full max-w-md px-4 md:h-auto' ref={ref}>
+				<motion.div
+					className='relative w-full h-full max-w-md px-4 md:h-auto -top-6'
+					ref={ref}
+					animate={{ y: 90 }}
+					transition={{ type: "spring", stiffness: 100 }}
+				>
 					{/* <!-- Modal content --> */}
 					<div className='relative bg-white rounded-lg shadow dark:bg-gray-900'>
 						{/* <!-- Modal header --> */}
@@ -134,7 +140,7 @@ const DeleteUserModel = ({ userId, setIsDeleteUserModelOpen, setNeedReload }) =>
 							</button>
 						</div>
 					</div>
-				</div>
+				</motion.div>
 			</div>
 		</React.Fragment>
 	);

@@ -10,6 +10,7 @@ import axios from "axios";
 import Spinner from "./Spinner";
 import { useSelector } from "react-redux";
 import handleModelClose from "../utils/handleModelClose";
+import { motion } from "framer-motion";
 
 // shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
 
@@ -109,7 +110,12 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 			role={`${isAddUserModelOpen ? "dialog" : ""}`}
 			aria-hidden={`${isAddUserModelOpen ? "false" : "true"}`}
 		>
-			<div className='relative w-full h-full max-w-2xl px-4 md:h-auto' ref={ref}>
+			<motion.div
+				className='relative w-full h-full max-w-2xl px-4 md:h-auto -top-6'
+				ref={ref}
+				animate={{ y: 100 }}
+				transition={{ type: "spring", stiffness: 100 }}
+			>
 				<div className='relative bg-white rounded-lg shadow dark:bg-gray-800'>
 					<div className='flex items-start justify-between p-5 border-b rounded-t dark:border-gray-700'>
 						<h3 className='text-xl font-semibold dark:text-white'>Add new user</h3>
@@ -333,7 +339,7 @@ const AddUserModel = ({ setUsers, isAddUserModelOpen, setIsAddUserModelOpen }) =
 						</form>
 					</div>
 				</div>
-			</div>
+			</motion.div>
 		</div>
 	);
 };
